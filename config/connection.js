@@ -8,7 +8,7 @@ if (process.env.JAWSDB_URL) {
         host: "localhost",
         user: "root",
         password: "sesame",
-        database: "burgers_db"
+        database: "seqburgersDB"
     });
 
 }
