@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-2" id="newBurger">
+            <h2>new burgers</h2>
+            <hr>
+            <ul>
+                {{#each burgers}}
+                {{#unless devoured}}
+                <li>{{id}} {{burger_name}}
+                    <form action="/update" method="PUT" id="update-form">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <button class="btn btn-warning btn-sm" type="submit">DEVOUR</button>
+                        <hr />
+                    </form>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
+            
+        </div>
+        <div class="col-md-8 center">
+            
+            
+            <h1>Eat-Da-Burger</h1>
+            
+             
+            
+            <form method="POST" action="/create" id="create-form">
+                <input type="text" name="burger" id="ca" class="form-control" placeholder="Enter a new burger">
+                <button class="btn btn-dark btn-lg" role="button" type="submit">MAKE-DA-BURGER</button>
+            </form>
+            
+            <h3 class="message">Enter a new burger you'd like to eat...</h3>
+            <h3 class="message">AND DEVOUR IT!</h3>
+            <img src="/assets/img/burger.png" />
+        </div>
+        <div class="col-md-2" id="eatenBurger">
+            <h2>eaten burgers</h2>
+            <hr>
+            <ul>
+
+                {{#each burgers}}
+                {{#if devoured}}
+                <li>{{id}} {{burger_name}}
+                </li>
+                {{/if}}
+                {{/each}}
+
+            </ul>
+           
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#update-form").on("submit", function (event) {
+            event.preventDefault();
+            var id = parseInt(this.id.defaultValue);
+            var newDevoured = true;
+
+            var newDevouredState = {
+                devoured: newDevoured
+            };
+
+            $.ajax("/api/burgers/" + id, {
+                type: "PUT",
+                data: newDevouredState
+
+            }).then(
+                function () {
+                    $(document).ajaxStop(function () {
+                        window.location.reload();
+                    });
+                }
+            );
+        });
+        $("#create-form").on("submit", function (event) {
+            event.preventDefault();  
+            var newBurger = {
+                burger_name: $("#ca").val().trim()
+            };
+
+            $.ajax("/api/burgers", {
+                type: "POST",
+                data: newBurger
+            }).then(
+                function () {
+                    location.reload();
+                }
+            );
+        });
+    });
+
+</script>
