@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "sesame",
-    "database": "database_development",
+    "database": "seqburgersDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
