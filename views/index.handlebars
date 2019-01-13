@@ -4,9 +4,9 @@
             <h2>new burgers</h2>
             <hr>
             <ul>
-                {{#each burgers}}
+                {{#each Burgers}}
                 {{#unless devoured}}
-                <li>{{id}} {{burger_name}}
+                <li>{{id}} {{newBurger.burger_name}}
                     <form action="/update" method="PUT" id="update-form">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <button class="btn btn-warning btn-sm" type="submit">DEVOUR</button>
@@ -16,20 +16,20 @@
                 {{/unless}}
                 {{/each}}
             </ul>
-            
+
         </div>
         <div class="col-md-8 center">
-            
-            
+
+
             <h1>Eat-Da-Burger</h1>
-            
-             
-            
+
+
+
             <form method="POST" action="/create" id="create-form">
                 <input type="text" name="burger" id="ca" class="form-control" placeholder="Enter a new burger">
                 <button class="btn btn-dark btn-lg" role="button" type="submit">MAKE-DA-BURGER</button>
             </form>
-            
+
             <h3 class="message">Enter a new burger you'd like to eat...</h3>
             <h3 class="message">AND DEVOUR IT!</h3>
             <img src="/assets/img/burger.png" />
@@ -39,7 +39,7 @@
             <hr>
             <ul>
 
-                {{#each burgers}}
+                {{#each Burgers}}
                 {{#if devoured}}
                 <li>{{id}} {{burger_name}}
                 </li>
@@ -47,13 +47,14 @@
                 {{/each}}
 
             </ul>
-           
+
         </div>
     </div>
 </div>
 
 <script>
     $(function () {
+
         $("#update-form").on("submit", function (event) {
             event.preventDefault();
             var id = parseInt(this.id.defaultValue);
@@ -76,11 +77,12 @@
             );
         });
         $("#create-form").on("submit", function (event) {
-            event.preventDefault();  
+            event.preventDefault();
             var newBurger = {
                 burger_name: $("#ca").val().trim()
             };
-
+            console.log(newBurger.burger_name)
+            
             $.ajax("/api/burgers", {
                 type: "POST",
                 data: newBurger
@@ -89,7 +91,14 @@
                     location.reload();
                 }
             );
+
+
         });
     });
+    function submitPost(burger) {
+        $.post("/api/burgers", burger, function () {
+            window.location.href = "/burgers";
+        });
+    }
 
 </script>

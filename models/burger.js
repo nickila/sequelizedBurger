@@ -1,9 +1,12 @@
-module.exports = function(sequelize, DataTypes) {
+'use strict';
+
+
+module.exports = function (sequelize, DataTypes) {
   var Burgers = sequelize.define("Burgers", {
     burger_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { 
+      validate: {
         len: [1]
       }
     },
@@ -12,5 +15,11 @@ module.exports = function(sequelize, DataTypes) {
       default: false
     }
   });
+
+  
+
+
+
   return Burgers;
+  
 }
